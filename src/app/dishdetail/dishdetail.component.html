@@ -6,8 +6,8 @@
     fxLayoutGap="10px" 
     fxLayoutGap.xs="0">
 
-  <div fxFlex="40" *ngIf="dish">
-    <mat-card>
+  <div fxFlex="40">
+    <mat-card *ngIf="dish">
         <mat-card-title><h3>{{dish.name}}</h3></mat-card-title>
         <img mat-card-image src={{dish.image}}>
         <mat-card-content>{{dish.description}}</mat-card-content>
@@ -17,6 +17,9 @@
           <button mat-button>SHARE</button>
         </mat-card-actions>
     </mat-card>
+  </div>
+  <div [hidden]="dish">
+    <mat-spinner></mat-spinner><h4>Loading... Please Wait!</h4>
   </div>
 
   <div fxFlex="40" *ngIf="dish">
@@ -32,6 +35,10 @@
 
 
     
+  </div>
+
+  <div [hidden]="dish">
+    <mat-spinner></mat-spinner><h4>Loading... Please Wait!</h4>
   </div>
 
 </div>
