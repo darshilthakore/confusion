@@ -68,8 +68,8 @@ export class DishdetailComponent implements OnInit {
   createForm(): void {
     this.commentForm = this.fb.group({
       author: ['', [Validators.required, Validators.minLength(2)]],
-      rating: 5,
-      comment: ['', [Validators.required]]
+      comment: ['', Validators.required],
+      rating: 5
     });
 
     this.commentForm.valueChanges
@@ -84,9 +84,9 @@ export class DishdetailComponent implements OnInit {
     console.log(this.comment);
     this.commentForm.reset({
       author: '',
-      rating: 5,
       comment: ''
     });
+    this.commentFormDirective.resetForm({rating: 5});
     console.log(this.comment.author);
     let newComment = new Comment();
     newComment.rating = this.comment.rating;
@@ -101,7 +101,7 @@ export class DishdetailComponent implements OnInit {
     this.dish.comments.push(newComment);
 
 
-    this.commentFormDirective.resetForm();
+
 
     // this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
     // this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])));
