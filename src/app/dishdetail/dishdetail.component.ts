@@ -50,12 +50,12 @@ export class DishdetailComponent implements OnInit {
   }
 
   formErrors = {
-    'name': '',
+    'author': '',
     'comment': ''
   };
 
   validationMessages = {
-    'name': {
+    'author': {
       'required': 'Author name is required',
       'minlength': 'Author name must be at least 2 characters long'
     },
@@ -67,7 +67,7 @@ export class DishdetailComponent implements OnInit {
 
   createForm(): void {
     this.commentForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
+      author: ['', [Validators.required, Validators.minLength(2)]],
       rating: 5,
       comment: ['', [Validators.required]]
     });
@@ -80,18 +80,36 @@ export class DishdetailComponent implements OnInit {
 
   onSubmit() {
     this.comment = this.commentForm.value;
+    console.log("ciao");
     console.log(this.comment);
     this.commentForm.reset({
-      name: '',
+      author: '',
       rating: 5,
       comment: ''
     });
+    console.log(this.comment.author);
+    let newComment = new Comment();
+    newComment.rating = this.comment.rating;
+    newComment.author = this.comment.author;
+    newComment.comment = this.comment.comment;
+
+    var d = new Date();
+    var n = d.toISOString();
+    newComment.date = n;
+
+
+    this.dish.comments.push(newComment);
+
+
     this.commentFormDirective.resetForm();
 
-    this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
-    this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])));
-      
+    // this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    // this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])));
+    //   .subscribe
+    
+    
   }
+
 
   onValueChanged(data?: any) {
     if (!this.commentForm) { return; }
