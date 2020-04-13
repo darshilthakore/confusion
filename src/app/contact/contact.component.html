@@ -86,20 +86,21 @@
   </div>
   
   <div fxFlex [hidden]="!submitted">
-    <mat-list *ngIf="feedback">
+    <mat-list *ngIf="!waiting && feedback else loading">
       <mat-list-item>
         <h4>Your Submission</h4>
-        <p matLine>Id: {{feedback.id}}</p>
+        <!-- <p matLine>Id: {{feedback.id}}</p> -->
         <p matLine>First Name: {{feedback.firstname}}</p>
         <p matLine>Last Name: {{feedback.lastname}}</p>
         <p matLine>Tel. Number: {{feedback.telnum}}</p>
       </mat-list-item>
 
     </mat-list>
-
-    <div [hidden]="feedback">
-      <mat-spinner></mat-spinner><h4>Submitting Form</h4>
-    </div>
+    <ng-template #loading>
+      <div>
+        <mat-spinner></mat-spinner><h4>Submitting Form</h4>
+      </div>
+    </ng-template>
   </div>
 
   

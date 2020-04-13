@@ -17,6 +17,7 @@ export class ContactComponent implements OnInit {
   feedback: Feedback;
   contactType = ContactType;
   submitted = false;
+  waiting = false;
   @ViewChild('fform') feedbackFormDirective;
 
   constructor(
@@ -79,7 +80,7 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.feedback = this.feedbackForm.value;
-
+    this.waiting = true;
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
@@ -95,10 +96,12 @@ export class ContactComponent implements OnInit {
     console.log(this.feedback);
     this.feedbackService.submitFeedback(this.feedback)
     .subscribe(
-      feedback => (this.feedback = feedback,
-      console.log(feedback))
-
-    );
+      feedback => {
+        this.feedback = feedback;
+        console.log(feedback);
+        this.waiting = false;
+        }, err => this.waiting = false);
+      
 
 
     // let newFeedback = new Feedback();
