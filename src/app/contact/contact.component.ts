@@ -1,6 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Params, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { Feedback, ContactType } from '../shared/feedback';
+import { FeedbackService } from '../services/feedback.service';
 
 
 @Component({
@@ -13,9 +16,15 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  submitted = false;
   @ViewChild('fform') feedbackFormDirective;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private feedbackService: FeedbackService,
+    private route: ActivatedRoute,
+    private location: Location,
+    @Inject('BaseURL') private BaseURL) {
     this.createForm();
    }
 
@@ -68,8 +77,9 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
@@ -80,6 +90,28 @@ export class ContactComponent implements OnInit {
       message: ''
     });
     this.feedbackFormDirective.resetForm();
+
+
+    console.log(this.feedback);
+    this.feedbackService.submitFeedback(this.feedback)
+    .subscribe(
+      feedback => (this.feedback = feedback,
+      console.log(feedback))
+
+    );
+
+
+    // let newFeedback = new Feedback();
+    // newFeedback.firstname = this.feedback.firstname;
+    // newFeedback.lastname = this.feedback.lastname;
+    // newFeedback.telnum = this.feedback.telnum;
+    // newFeedback.email = this.feedback.email;
+    // newFeedback.agree = this.feedback.agree;
+    // newFeedback.contacttype = this.feedback.contacttype;
+    // newFeedback.message = this.feedback.message;
+    
+
+
   }
 
   onValueChanged(data?: any) {
