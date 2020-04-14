@@ -4,12 +4,20 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Feedback, ContactType } from '../shared/feedback';
 import { FeedbackService } from '../services/feedback.service';
-
+import { flyInOut, expand } from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+  },
+  animations: [
+    expand(),
+    flyInOut()
+  ]
 })
 export class ContactComponent implements OnInit {
 
@@ -100,6 +108,10 @@ export class ContactComponent implements OnInit {
         this.feedback = feedback;
         console.log(feedback);
         this.waiting = false;
+        setTimeout(() => {
+          this.waiting = true;
+          this.submitted = false;
+        }, 5000)
         }, err => this.waiting = false);
       
 

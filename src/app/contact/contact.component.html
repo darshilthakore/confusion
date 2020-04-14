@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size" [hidden]="submitted">
+  <div fxFlex fxFlexOffset="20px" class="form-size" [hidden]="submitted" [@expand]>
     <h3>Send us your Feedback</h3>
     <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
 
@@ -85,18 +85,22 @@
     </form>
   </div>
   
-  <div fxFlex [hidden]="!submitted">
+  <div fxFlex [hidden]="!submitted" [@expand]>
     <mat-list *ngIf="!waiting && feedback else loading">
       <mat-list-item>
-        <h4>Your Submission</h4>
-        <!-- <p matLine>Id: {{feedback.id}}</p> -->
+        <h3 matLine><b>Your Submission</b></h3>
+        <p matLine>Id: {{feedback.id}}</p>
         <p matLine>First Name: {{feedback.firstname}}</p>
         <p matLine>Last Name: {{feedback.lastname}}</p>
         <p matLine>Tel. Number: {{feedback.telnum}}</p>
+        <p matLine>Email: {{feedback.email}}</p>
+        <p matLine>Contact You?: {{feedback.agree}}</p>
+        <p matLine>How?: {{feedback.contacttype}}</p>
+        <p matLine>Feedback: {{feedback.message}}</p>
       </mat-list-item>
 
     </mat-list>
-    <ng-template #loading>
+    <ng-template #loading [@expand]>
       <div>
         <mat-spinner></mat-spinner><h4>Submitting Form</h4>
       </div>
@@ -104,8 +108,6 @@
   </div>
 
   
-  
-
 </div>
 
 
